@@ -5,13 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>VO1D Bot Dashboard - Select Server</title>
 <style>
-  /* Use your styles here, same as before */
-  /* Simplified for brevity */
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap');
+
   body {
     margin: 0;
     font-family: 'Poppins', sans-serif;
     background: linear-gradient(135deg, #2e004f, #000000);
-    color: #ccc;
+    color: #ddd;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -70,32 +70,9 @@
   h1 {
     color: #d6c8ff;
     text-shadow: 0 0 15px #7b3fff;
-  }
-  .server-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    justify-content: center;
-    width: 100%;
-  }
-  .server-card {
-    background: rgba(123, 63, 255, 0.15);
-    border-radius: 20px;
-    padding: 1rem 2rem;
-    min-width: 200px;
-    box-shadow: 0 0 20px #7b3fff66;
-    text-align: center;
-    cursor: pointer;
-    transition: background 0.3s ease;
-    color: #ddd;
     font-weight: 600;
-    user-select: none;
-    text-decoration: none;
-    display: inline-block;
   }
-  .server-card:hover {
-    background: rgba(123, 63, 255, 0.35);
-  }
+
   #login-btn {
     background: #7b3fff;
     border: none;
@@ -106,6 +83,59 @@
     cursor: pointer;
     font-size: 1.2rem;
     margin-top: 2rem;
+  }
+
+  .server-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    width: 100%;
+  }
+
+  .server-card {
+    background: rgba(123, 63, 255, 0.15);
+    border-radius: 20px;
+    padding: 1.5rem;
+    box-shadow: 0 0 20px #7b3fff66;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+    text-decoration: none;
+    color: #ddd;
+  }
+  .server-card:hover {
+    background: rgba(123, 63, 255, 0.35);
+    box-shadow: 0 0 35px #bb85ffaa;
+    transform: translateY(-5px);
+  }
+
+  .server-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #7b3fff88;
+    object-fit: cover;
+    background: #1a0040;
+    flex-shrink: 0;
+  }
+
+  .server-info {
+    flex-grow: 1;
+  }
+
+  .server-name {
+    font-weight: 600;
+    font-size: 1.2rem;
+    color: #d6c8ff;
+    margin: 0 0 0.2rem 0;
+    text-shadow: 0 0 10px #7b3fff;
+  }
+
+  .server-id {
+    font-size: 0.8rem;
+    color: #aaa;
   }
 </style>
 </head>
@@ -120,7 +150,7 @@
 </nav>
 
 <main>
-  <h1>Authorize with Discord to Select a Server</h1>
+  <h1>Select a Server to Manage</h1>
   <button id="login-btn">Login with Discord</button>
   <div class="server-list" id="server-list" style="display:none;"></div>
 </main>
@@ -129,16 +159,11 @@
   const clientId = '1379170344945848350';  // Replace with your Discord app client id
   const redirectUri = window.location.origin + window.location.pathname; // current page URL
 
-  // The permissions your bot requires - if you want to filter guilds where bot is present,
-  // you need a backend to check bot membership.
-  // For now, show all guilds user has access to.
-
   const scopes = ['identify', 'guilds'];
 
   const loginBtn = document.getElementById('login-btn');
   const serverList = document.getElementById('server-list');
 
-  // Check if token is present in URL hash (implicit grant flow)
   function getTokenFromHash() {
     const hash = window.location.hash.substring(1);
     const params = new URLSearchParams(hash);
@@ -156,19 +181,28 @@
     return res.json();
   }
 
-  // Normally, you need a backend API to check which guilds your bot is in.
-  // Here, we just display all guilds user has access to for demo.
+  // Helper to get guild icon URL or default image
+  function getGuildIconURL(guild) {
+    if (!guild.icon) return 'https://via.placeholder.com/64?text=No+Icon';
+    return `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.webp?size=64`;
+  }
+
   function renderGuilds(guilds) {
     serverList.innerHTML = '';
     guilds.forEach(guild => {
-      // Create server card link to dashboard_home.html?server=GUILD_ID
       const a = document.createElement('a');
       a.className = 'server-card';
       a.href = `dashboard_home.html?server=${guild.id}`;
-      a.textContent = guild.name;
+      a.innerHTML = `
+        <img src="${getGuildIconURL(guild)}" alt="${guild.name} icon" class="server-icon" />
+        <div class="server-info">
+          <h2 class="server-name">${guild.name}</h2>
+          <p class="server-id">ID: ${guild.id}</p>
+        </div>
+      `;
       serverList.appendChild(a);
     });
-    serverList.style.display = 'flex';
+    serverList.style.display = 'grid';
   }
 
   async function init() {
@@ -182,7 +216,7 @@
     } else {
       loginBtn.style.display = 'none';
       const guilds = await fetchUserGuilds(token);
-      if (guilds.length === 0) {
+      if (!guilds.length) {
         serverList.textContent = 'No servers found or bot not present in any server.';
         serverList.style.display = 'block';
       } else {
