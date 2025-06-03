@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>About VO1D Bot</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap');
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #2e004f, #000000);
+      color: #ccc;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 6rem 1rem 3rem;
+    }
+
+    nav {
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: flex-end;
+      padding: 1rem 2rem;
+      position: fixed;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(30, 0, 60, 0.6);
+      border-radius: 0 0 15px 15px;
+      box-shadow: 0 0 15px #7b3fff;
+      z-index: 999;
+      transition: background 0.3s ease;
+    }
+    nav:hover {
+      background: rgba(60, 0, 110, 0.9);
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 2rem;
+      margin: 0;
+      padding: 0;
+    }
+    nav ul li a {
+      color: #ddd;
+      font-weight: 600;
+      text-decoration: none;
+      padding: 0.4rem 0.7rem;
+      border-radius: 6px;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+    nav ul li a:hover {
+      background: #7b3fff;
+      color: white;
+    }
+
+    main {
+      max-width: 700px;
+      width: 100%;
+      padding: 2rem 3rem;
+      background: rgba(123, 63, 255, 0.15);
+      border-radius: 15px;
+      box-shadow: 0 0 30px #7b3fff;
+      color: #ddd;
+      user-select: none;
+      margin-top: 1rem;
+    }
+
+    h1 {
+      font-weight: 600;
+      color: #d6c8ff;
+      text-shadow: 0 0 15px #7b3fff;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    p {
+      line-height: 1.6;
+      font-size: 1.15rem;
+    }
+
+    a {
+      color: #bb85ff;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+    a:hover {
+      color: #d6c8ff;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="status.html">Status</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="http://localhost:3000/dashboard" target="_blank" rel="noopener noreferrer">Dashboard</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <h1>About VO1D Bot</h1>
+    <p>
+      VO1D Bot is a powerful and customizable Discord bot designed to enhance your server experience. Whether you want welcoming messages, moderation tools, fun commands, or custom features, VO1D Bot has you covered.
+    </p>
+    <p>
+      Our goal is to provide a reliable, user-friendly, and feature-rich bot that’s easy to configure via a sleek web dashboard. Stay tuned for more updates and features!
+    </p>
+    <p>
+      For support or to join the community, visit our <a href="https://discord.gg/489KjudW" target="_blank" rel="noopener noreferrer">Discord server</a>.
+    </p>
+  </main>
+</body>
+</html>

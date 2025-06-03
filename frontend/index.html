@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>VO1D Bot Dashboard</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap');
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #2e004f, #000000);
+      color: #ccc;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    nav {
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: flex-end;
+      padding: 1rem 2rem;
+      position: fixed;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(30, 0, 60, 0.6);
+      border-radius: 0 0 15px 15px;
+      box-shadow: 0 0 15px #7b3fff;
+      z-index: 999;
+      transition: background 0.3s ease;
+    }
+    nav:hover {
+      background: rgba(60, 0, 110, 0.9);
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 2rem;
+      margin: 0;
+      padding: 0;
+    }
+    nav ul li a {
+      color: #ddd;
+      font-weight: 600;
+      text-decoration: none;
+      padding: 0.4rem 0.7rem;
+      border-radius: 6px;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+    nav ul li a:hover {
+      background: #7b3fff;
+      color: white;
+    }
+
+    main {
+      flex: 1;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 7rem 2rem 4rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2rem;
+      text-align: center;
+    }
+
+    .logo {
+      max-width: 200px;
+      border-radius: 20px;
+      box-shadow: 0 0 20px #7b3fff88;
+    }
+
+    h1 {
+      font-weight: 600;
+      color: #d6c8ff;
+      text-shadow: 0 0 15px #7b3fff;
+      margin-top: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .btn {
+      background: linear-gradient(90deg, #7b3fff, #bb85ff);
+      color: white;
+      border: none;
+      padding: 1rem 2.5rem;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 1.2rem;
+      cursor: pointer;
+      box-shadow: 0 5px 15px #7b3fffaa;
+      transition: box-shadow 0.3s ease, transform 0.2s ease;
+      text-decoration: none;
+      display: inline-block;
+      user-select: none;
+    }
+    .btn:hover {
+      box-shadow: 0 8px 25px #bb85ffcc;
+      transform: translateY(-3px);
+    }
+
+    .features-section {
+      width: 100%;
+      max-width: 900px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+    .feature-card {
+      background: rgba(123, 63, 255, 0.15);
+      border-radius: 20px;
+      padding: 2rem;
+      width: 280px;
+      box-shadow: 0 0 20px #7b3fff66;
+      color: #ddd;
+      font-weight: 400;
+      transition: background 0.3s ease;
+    }
+    .feature-card:hover {
+      background: rgba(123, 63, 255, 0.35);
+    }
+    .feature-card h3 {
+      margin-top: 0;
+      margin-bottom: 1rem;
+      color: #d6c8ff;
+    }
+  </style>
+</head>
+<body>
+  <nav aria-label="Primary navigation">
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="status.html">Status</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="dashboard.html">Dashboard</a></li> <!-- Updated here -->
+    </ul>
+  </nav>
+
+  <main>
+    <img class="logo" src="https://i.imgur.com/Vcc0OlJ.jpeg" alt="VO1D Bot Logo" />
+    <h1>VO1D Bot</h1>
+    <a
+      class="btn"
+      href="https://discord.com/api/oauth2/authorize?client_id=YOUR_CLIENT_ID&permissions=8&scope=bot%20applications.commands"
+      target="_blank"
+      rel="noopener noreferrer"
+      >Add to Discord</a
+    >
+
+    <section class="features-section" aria-label="Features">
+      <article class="feature-card">
+        <h3>Welcome Messages</h3>
+        <p>Customize your server's welcome messages with ease.</p>
+      </article>
+      <article class="feature-card">
+        <h3>Moderation Tools</h3>
+        <p>Powerful commands to keep your server safe and clean.</p>
+      </article>
+      <article class="feature-card">
+        <h3>Fun Commands</h3>
+        <p>Memes, animal pictures, games and more to keep everyone entertained.</p>
+      </article>
+      <article class="feature-card">
+        <h3>Dashboard</h3>
+        <p>Manage bot settings with a sleek web interface.</p>
+      </article>
+      <article class="feature-card">
+        <h3>Custom Commands</h3>
+        <p>Create your own commands to make your server unique.</p>
+      </article>
+    </section>
+  </main>
+</body>
+</html>

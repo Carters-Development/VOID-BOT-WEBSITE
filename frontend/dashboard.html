@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>VO1D Bot Dashboard - Select Server</title>
+<style>
+  /* Use your styles here, same as before */
+  /* Simplified for brevity */
+  body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #2e004f, #000000);
+    color: #ccc;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 6rem;
+  }
+  nav {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: flex-end;
+    padding: 1rem 2rem;
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(30, 0, 60, 0.6);
+    border-radius: 0 0 15px 15px;
+    box-shadow: 0 0 15px #7b3fff;
+    z-index: 999;
+    transition: background 0.3s ease;
+  }
+  nav:hover {
+    background: rgba(60, 0, 110, 0.9);
+  }
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 2rem;
+    margin: 0;
+    padding: 0;
+  }
+  nav ul li a {
+    color: #ddd;
+    font-weight: 600;
+    text-decoration: none;
+    padding: 0.4rem 0.7rem;
+    border-radius: 6px;
+    transition: background 0.3s ease, color 0.3s ease;
+  }
+  nav ul li a:hover {
+    background: #7b3fff;
+    color: white;
+  }
+
+  main {
+    max-width: 900px;
+    width: 100%;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+  }
+  h1 {
+    color: #d6c8ff;
+    text-shadow: 0 0 15px #7b3fff;
+  }
+  .server-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    width: 100%;
+  }
+  .server-card {
+    background: rgba(123, 63, 255, 0.15);
+    border-radius: 20px;
+    padding: 1rem 2rem;
+    min-width: 200px;
+    box-shadow: 0 0 20px #7b3fff66;
+    text-align: center;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    color: #ddd;
+    font-weight: 600;
+    user-select: none;
+    text-decoration: none;
+    display: inline-block;
+  }
+  .server-card:hover {
+    background: rgba(123, 63, 255, 0.35);
+  }
+  #login-btn {
+    background: #7b3fff;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 20px;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 1.2rem;
+    margin-top: 2rem;
+  }
+</style>
+</head>
+<body>
+<nav>
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="status.html">Status</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="dashboard.html">Dashboard</a></li>
+  </ul>
+</nav>
+
+<main>
+  <h1>Authorize with Discord to Select a Server</h1>
+  <button id="login-btn">Login with Discord</button>
+  <div class="server-list" id="server-list" style="display:none;"></div>
+</main>
+
+<script>
+  const clientId = '1379170344945848350';  // Replace with your Discord app client id
+  const redirectUri = window.location.origin + window.location.pathname; // current page URL
+
+  // The permissions your bot requires - if you want to filter guilds where bot is present,
+  // you need a backend to check bot membership.
+  // For now, show all guilds user has access to.
+
+  const scopes = ['identify', 'guilds'];
+
+  const loginBtn = document.getElementById('login-btn');
+  const serverList = document.getElementById('server-list');
+
+  // Check if token is present in URL hash (implicit grant flow)
+  function getTokenFromHash() {
+    const hash = window.location.hash.substring(1);
+    const params = new URLSearchParams(hash);
+    return params.get('access_token');
+  }
+
+  async function fetchUserGuilds(token) {
+    const res = await fetch('https://discord.com/api/users/@me/guilds', {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    if (!res.ok) {
+      alert('Failed to fetch guilds');
+      return [];
+    }
+    return res.json();
+  }
+
+  // Normally, you need a backend API to check which guilds your bot is in.
+  // Here, we just display all guilds user has access to for demo.
+  function renderGuilds(guilds) {
+    serverList.innerHTML = '';
+    guilds.forEach(guild => {
+      // Create server card link to dashboard_home.html?server=GUILD_ID
+      const a = document.createElement('a');
+      a.className = 'server-card';
+      a.href = `dashboard_home.html?server=${guild.id}`;
+      a.textContent = guild.name;
+      serverList.appendChild(a);
+    });
+    serverList.style.display = 'flex';
+  }
+
+  async function init() {
+    const token = getTokenFromHash();
+    if (!token) {
+      loginBtn.style.display = 'inline-block';
+      loginBtn.onclick = () => {
+        const url = `https://discord.com/api/oauth2/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=token&scope=${scopes.join('%20')}`;
+        window.location.href = url;
+      };
+    } else {
+      loginBtn.style.display = 'none';
+      const guilds = await fetchUserGuilds(token);
+      if (guilds.length === 0) {
+        serverList.textContent = 'No servers found or bot not present in any server.';
+        serverList.style.display = 'block';
+      } else {
+        renderGuilds(guilds);
+      }
+    }
+  }
+
+  init();
+</script>
+
+</body>
+</html>
